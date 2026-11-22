@@ -1,0 +1,258 @@
+
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  padding: 20px 24px;
+  background: var(--bg-tint-purple);
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.topbar *,
+.topbar *::before,
+.topbar *::after {
+  box-sizing: border-box;
+}
+
+.topbar-greeting-block {
+  flex: 1 1 auto;
+  min-width: 0; /* allows text to wrap instead of widening the row */
+}
+
+.topbar-greeting {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.topbar-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text-tertiary);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 16px;
+}
+
+.topbar-icon-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: var(--bg-card);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.topbar-icon-btn:hover {
+  background: var(--bg-hover);
+}
+
+.topbar-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar-semester-wrapper {
+  position: relative;
+}
+
+.topbar-semester-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.topbar-semester-selector > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbar-semester-selector svg {
+  flex-shrink: 0;
+}
+
+.topbar-semester-selector:hover {
+  background: var(--bg-hover);
+}
+
+.topbar-chevron {
+  color: var(--text-faint);
+  transition: transform 0.15s ease;
+}
+
+.topbar-chevron.open {
+  transform: rotate(180deg);
+}
+
+.topbar-semester-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 180px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.topbar-semester-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.topbar-semester-option:hover {
+  background: var(--bg-hover);
+}
+
+.topbar-semester-option svg {
+  color: var(--accent-purple);
+}
+
+
+
+.topbar-icon-btn:focus-visible,
+.topbar-semester-selector:focus-visible,
+.topbar-semester-option:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+}
+
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 16px 20px;
+  }
+
+  .topbar-actions {
+    gap: 12px;
+  }
+}
+
+
+
+@media (max-width: 520px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .topbar-greeting {
+    font-size: 18px;
+  }
+
+  .topbar-description {
+    font-size: 13px;
+  }
+
+  .topbar-actions {
+    flex-shrink: 1;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .topbar-semester-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .topbar-semester-selector {
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 12px;
+  }
+
+  .topbar-semester-selector > span {
+    flex: 1;
+    text-align: left;
+  }
+
+  
+  .topbar-semester-menu {
+    left: 0;
+    right: 0;
+    min-width: 0;
+  }
+}
+
+
+
+@media (max-width: 360px) {
+  .topbar {
+    padding: 14px;
+  }
+
+  .topbar-greeting {
+    font-size: 17px;
+  }
+
+  .topbar-icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar-chevron {
+    transition: none;
+  }
+}

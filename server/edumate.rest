@@ -1,0 +1,154 @@
+###Health check
+GET http://localhost:3001/api/health
+###Register a user
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "arsene",
+  "email": "arsene@test.com",
+  "password": "mypassword123"
+}
+###Register the same email in different casing(400)
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "arsene",
+  "email": "ARSENE@test.com",
+  "password": "mypassword123"
+}
+###Register with a short password
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "arsene",
+  "email": "short@test.com",
+  "password": "short"
+}
+
+###Login
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+  "email": "arsene@test.com",
+  "password": "mypassword123"
+}
+###Login with wrong password
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "arsene@test.com",
+  "password": "wrongpassword"
+}
+### Login (expect 200 with a token)
+# @name login
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "arsene@test.com",
+  "password": "mypassword123"
+}
+
+
+### Current user with no token (expect 401)
+GET http://localhost:3001/api/auth/me
+
+
+### Create a semester
+POST http://localhost:3001/api/semesters
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "name": "Semester 1, 2026" }
+
+### List semesters (expect 200)
+GET http://localhost:3001/api/semesters
+Authorization: Bearer {{login.response.body.token}}
+
+### Create a unit
+POST http://localhost:3001/api/units
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "code": "cosc 325", "name": "Data Structures" }
+
+### List units
+GET http://localhost:3001/api/units
+Authorization: Bearer {{login.response.body.token}}
+
+### Update progress
+PATCH http://localhost:3001/api/units/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "progress": 40 }
+
+### Delete a unit (expect 204)
+DELETE http://localhost:3001/api/units/1
+Authorization: Bearer {{login.response.body.token}}
+
+### Units without a token (expect 401)
+GET http://localhost:3001/api/units
+
+
+### Create an assignment (expect 201)
+POST http://localhost:3001/api/assignments
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "title": "Binary tree lab", "type": "Assignment", "unitId": 1, "dueDate": "2026-11-25" }
+
+### List (expect 200)
+GET http://localhost:3001/api/assignments
+Authorization: Bearer {{login.response.body.token}}
+
+### Mark complete (expect 200)
+PATCH http://localhost:3001/api/assignments/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "completed": true }
+
+### Units now show derived progress (expect progress 100 for a unit with one completed assignment)
+GET http://localhost:3001/api/units
+Authorization: Bearer {{login.response.body.token}}
+
+
+### Start (expect 201)
+POST http://localhost:3001/api/study-sessions/start
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{ "unitId": null }
+
+### Start again (expect 409)
+POST http://localhost:3001/api/study-sessions/start
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{}
+
+### Active (expect 200 with durationSeconds)
+GET http://localhost:3001/api/study-sessions/active
+Authorization: Bearer {{login.response.body.token}}
+
+### Stop (expect 200)
+POST http://localhost:3001/api/study-sessions/stop
+Authorization: Bearer {{login.response.body.token}}
+
+### Stop again (expect 404)
+POST http://localhost:3001/api/study-sessions/stop
+Authorization: Bearer {{login.response.body.token}}
+
+### Stats (expect dailyMinutes with 7 numbers)
+GET http://localhost:3001/api/study-sessions/stats?period=this-week&tz=Africa/Nairobi
+Authorization: Bearer {{login.response.body.token}}
+
+### Bad period (expect 400)
+GET http://localhost:3001/api/study-sessions/stats?period=today
+Authorization: Bearer {{login.response.body.token}}
